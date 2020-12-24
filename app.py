@@ -10,26 +10,34 @@ st.write('Simply amazing Wolfram Alpha Engine can help you to solve many of the 
     besides providing the right answer it shows also the calculations steps. \
     Enjoy the journey too.  Some of the options:')
 
+st.markdown("- solve 2x + 3 = 11")
+st.markdown("- solve y' = y^2 x")
 st.markdown('- area of a circle with radius 2')
 st.markdown('- equation of line through (2, 5), (4, 1)')
-st.markdown("- 2x + 3 = 11")
-st.markdown("- glucose + oxygen -> water + carbon dioxide")
 st.markdown("- is 73 prime?")
 
-equation = st.text_input("Enter the task you are trying to solve:", "y' = y^2 x")
+st.markdown("[More examples from Wolfram](https://www.wolframalpha.com/examples/pro-features/step-by-step-solutions/)")
 
-query = urllib.parse.quote_plus(f"solve {equation}")
-query_url = f"http://api.wolframalpha.com/v2/query?" \
-            f"appid={os.environ['WOLFRAM_API_KEY']}" \
-            f"&input={query}" \
-            f"&scanner=Solve" \
-            f"&podstate=Result__Step-by-step+solution" \
-            "&format=image" \
-            f"&output=json"
+equation = st.text_input("Enter the task you are trying to solve:", "")
 
-r = requests.get(query_url).json()
+pic = ''
 
-# st.write(r)
+if equation != '':
+    query = urllib.parse.quote_plus(f"{equation}")
+    query_url = f"http://api.wolframalpha.com/v2/query?" \
+                f"appid={os.environ['WOLFRAM_API_KEY']}" \
+                f"&input={query}" \
+                f"&podstate=Result__Step-by-step+solution" \
+                "&format=image" \
+                f"&output=json"
 
-pic = r["queryresult"]["pods"][0]["subpods"][1]['img']['src']
-st.image(pic, width=300)
+    r = requests.get(query_url).json()
+
+    for i in r["queryresult"]["pods"]:
+        for i2 in i['subpods']:
+            if i2['title'] == 'Possible intermediate steps':
+                pic = i2['img']['src']
+
+# st.write(pic)
+if pic != '':
+    st.image(pic, width=300)
