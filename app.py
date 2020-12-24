@@ -12,6 +12,7 @@ st.write('Simply amazing Wolfram Alpha Engine can help you to solve many of the 
 
 st.markdown("- solve 2x + 3 = 11")
 st.markdown("- solve y' = y^2 x")
+st.markdown("- solve x+y=10, x-y=4")
 st.markdown('- area of a circle with radius 2')
 st.markdown('- equation of line through (2, 5), (4, 1)')
 st.markdown("- is 73 prime?")
